@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEKNOSUMMER - Presentazione</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Impact:wght@400&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Impact', Arial, sans-serif;
+            background: linear-gradient(45deg, #000080, #4169E1, #FF1493, #00CED1);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        /* WordArt Title Style */
+        .wordart-title {
+            font-size: clamp(3rem, 10vw, 8rem);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 2rem;
+            position: relative;
+            text-shadow: 
+                3px 3px 0px #FF1493,
+                6px 6px 0px #FFD700,
+                9px 9px 0px #00CED1,
+                12px 12px 20px rgba(0,0,0,0.5);
+            background: linear-gradient(45deg, #FF6B35, #F7931E, #FFD700, #00FF7F, #00CED1, #4169E1, #8A2BE2);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbowText 3s ease-in-out infinite alternate, pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes rainbowText {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .slide-image {
+            max-width: 80%;
+            max-height: 60%;
+            border-radius: 15px;
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(0, 255, 255, 0.2),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+            border: 3px solid #FFD700;
+            margin-bottom: 2rem;
+            object-fit: cover;
+            animation: photoGlow 3s ease-in-out infinite alternate;
+        }
+
+        .photo-placeholder {
+            width: 400px;
+            height: 300px;
+            background: linear-gradient(45deg, #FF1493, #00CED1, #FFD700);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            box-shadow: 
+                0 0 30px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(0, 255, 255, 0.2),
+                inset 0 0 30px rgba(255, 255, 255, 0.1);
+            border: 3px solid #FFD700;
+            margin-bottom: 2rem;
+            animation: photoGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes photoGlow {
+            0% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(0, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.5), 0 0 80px rgba(255, 20, 147, 0.3); }
+        }
+
+        .slide-title {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: #FFFFFF;
+            text-shadow: 
+                2px 2px 0px #FF1493,
+                4px 4px 0px #00CED1,
+                6px 6px 15px rgba(0,0,0,0.8);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #FF1493, #00CED1);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 
+                0 4px 15px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 6px 20px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            color: #FFD700;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            border: 2px solid #FFD700;
+        }
+
+        /* Title slide special effects */
+        .title-slide {
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+        }
+
+        .title-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 20, 147, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 206, 209, 0.3) 0%, transparent 50%);
+            animation: floatingOrbs 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatingOrbs {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Photo slide effects */
+        .photo-slide {
+            background: rgba(0,0,0,0.3);
+        }
+
+        .retro-border {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 3px solid;
+            border-image: linear-gradient(45deg, #FF1493, #FFD700, #00CED1, #FF1493) 1;
+            pointer-events: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .photo-placeholder {
+                width: 300px;
+                height: 225px;
+            }
+            
+            .navigation {
+                bottom: 20px;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">9</span>
+        </div>
+        
+        <div class="retro-border"></div>
+
+        <!-- Title Slide -->
+        <div class="slide active title-slide">
+            <h1 class="wordart-title">TEKNOSUMMER</h1>
+            <p style="color: #FFFFFF; font-size: 1.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+                ✨ Le Nostre Avventure Estive ✨
+            </p>
+        </div>
+
+        <!-- Photo Slides -->
+        <div class="slide photo-slide">
+            <img src="IMG_20250426_064050.jpg" class="slide-image" alt="Night Lights" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">🌃 Night Lights<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Teaspon party</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="1C759ECE-A7B0-4094-9F18-A9D8EAC2B014.jpg" class="slide-image" alt="Good Times" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">😎 Good Times<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Sports</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0213.jpg" class="slide-image" alt="Beach Vibes" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">🏖️ Beach Vibes<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">TeknoSquad in trasferta</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0224.jpg" class="slide-image" alt="Blue Nights" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">🔵 Blue Nights<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Ora del delivery del progetto</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0299.jpg" class="slide-image" alt="Green Vibes" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">📸 Green Vibes<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Lettera di richiamo</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0424.jpg" class="slide-image" alt="Waterfall Memories" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">🏞️ Waterfall Memories<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Teknosummer in detox</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0539.jpg" class="slide-image" alt="Purple Dreams" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">💜 Purple Dreams<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Sogni Viola</h2>
+        </div>
+
+        <div class="slide photo-slide">
+            <img src="IMG_0559.jpg" class="slide-image" alt="Squad Goals" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="photo-placeholder" style="display:none;">👥 Squad Goals<br><small>Sostituisci con la tua foto</small></div>
+            <h2 class="slide-title">Electropardo e Colletta</h2>
+        </div>
+
+        <!-- Final slide -->
+        <div class="slide title-slide">
+            <h1 class="wordart-title">THE END</h1>
+            <p style="color: #FFFFFF; font-size: 1.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-top: 2rem;">
+                🎉 Grazie per aver ballato con noi🎉<br>
+                <span style="font-size: 1rem; margin-top: 1rem; display: block;">TEKNOSUMMER 2025</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">◀ PREV</button>
+        <button class="nav-btn" onclick="nextSlide()">NEXT ▶</button>
+        <button class="nav-btn" onclick="toggleAutoplay()" id="autoplayBtn">▶ AUTO</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 0;
+        let autoplayInterval = null;
+        let isAutoplay = false;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        console.log('Slides trovate:', totalSlides);
+        document.getElementById('totalSlides').textContent = totalSlides;
+
+        function showSlide(index) {
+            console.log('Mostrando slide:', index + 1);
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                console.log(`Slide ${i + 1}: ${slide.classList.contains('active') ? 'attiva' : 'nascosta'}`);
+            });
+            slides[index].classList.add('active');
+            document.getElementById('currentSlide').textContent = index + 1;
+        }
+
+        function nextSlide() {
+            console.log('Next slide - da:', currentSlideIndex + 1);
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            console.log('Next slide - a:', currentSlideIndex + 1);
+            showSlide(currentSlideIndex);
+        }
+
+        function previousSlide() {
+            console.log('Previous slide - da:', currentSlideIndex + 1);
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            console.log('Previous slide - a:', currentSlideIndex + 1);
+            showSlide(currentSlideIndex);
+        }
+
+        function toggleAutoplay() {
+            const btn = document.getElementById('autoplayBtn');
+            if (isAutoplay) {
+                clearInterval(autoplayInterval);
+                btn.textContent = '▶ AUTO';
+                isAutoplay = false;
+                console.log('Autoplay fermato');
+            } else {
+                autoplayInterval = setInterval(nextSlide, 3000);
+                btn.textContent = '⏸ STOP';
+                isAutoplay = true;
+                console.log('Autoplay avviato');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            console.log('Tasto premuto:', e.key);
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            } else if (e.key === 'Escape') {
+                if (isAutoplay) toggleAutoplay();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide(); // Swipe left = next
+                } else {
+                    previousSlide(); // Swipe right = previous
+                }
+            }
+        }
+
+        // Test dei pulsanti al caricamento
+        window.addEventListener('load', function() {
+            console.log('Pagina caricata. Inizializzo...');
+            showSlide(0);
+            
+            // Test automatico dopo 2 secondi
+            setTimeout(() => {
+                console.log('Test automatico...');
+                nextSlide();
+            }, 2000);
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
